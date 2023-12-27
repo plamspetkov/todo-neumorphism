@@ -40,7 +40,9 @@ const SingleTodo = ({ todo, dispatch }: Props) => {
 
 	return (
 		<form
-			className="todo flex w-[100%] md:max-w-max justify-between items-center gap-4 rounded p-[20px] mt-[15px]"
+			className={`${
+				edit ? 'editTodo' : 'todo'
+			} flex w-[100%] md:max-w-max justify-between items-center gap-4 rounded p-[20px] mt-[15px]`}
 			onSubmit={(e) => handleEdit(e, todo.id)}
 		>
 			{edit ? (
@@ -48,18 +50,30 @@ const SingleTodo = ({ todo, dispatch }: Props) => {
 					ref={inputRef}
 					value={editTodo}
 					onChange={(e) => setEditTodo(e.target.value)}
-					className="input w-full  p-[5px] border-none outline-none 
-        rounded text-2xl font-normal caret-amber-500"
+					className="flex-1 p-[5px] bg-transparent editText w-full  border-none outline-none 
+        rounded text-[20px] font-normal caret-amber-500 "
 				/>
-			) : todo.isDone ? (
-				<s className="text-[20px] flex-1 p-[5px]">{todo.todo}</s>
 			) : (
-				<span className="text-[20px] flex-1 p-[5px]">{todo.todo}</span>
+				<span
+					className={`${
+						todo.isDone
+							? '!text-[#fe3939] line-through decoration-[#fe3939] blur-[0.7px] '
+							: '!text-[#28d942] blur-[0.7px]'
+					} text-[20px] flex-1 p-[5px]`}
+				>
+					{todo.todo}
+				</span>
 			)}
 
 			<div className="icons flex gap-[10px] px-[5px] text-[20px] cursor-pointer">
 				<span
-					className="text-[#262b2f]  hover:text-[#ff5900] hover:blur-[0.7px] transition-all transition-duration-300"
+					className={`${
+						edit ? 'text-[#ff5900] blur-[0.7px]' : 'text-[#262b2f] '
+					} ${
+						todo.isDone
+							? 'hover:text-none cursor-default '
+							: 'hover:text-[#ff5900] hover:blur-[0.7px]'
+					} transition-all transition-duration-300`}
 					onClick={() => {
 						if (!edit && !todo.isDone) {
 							setEdit(!edit);
@@ -69,13 +83,17 @@ const SingleTodo = ({ todo, dispatch }: Props) => {
 					<MdModeEdit />
 				</span>
 				<span
-					className="text-[#262b2f]  hover:text-[#ff5900] hover:blur-[0.7px] transition-all transition-duration-300"
+					className={`${
+						todo.isDone ? 'text-[#fe3939] blur-[0.7px]' : 'text-[#262b2f]'
+					}  hover:text-[#fe3939] hover:blur-[0.7px] transition-all transition-duration-300`}
 					onClick={() => handleDelete(todo.id)}
 				>
 					<MdDelete />
 				</span>
 				<span
-					className="text-[#262b2f]  hover:text-[#ff5900] hover:blur-[0.7px] transition-all transition-duration-300"
+					className={`${
+						todo.isDone ? 'text-[#28d942]' : 'text-[#262b2f]'
+					}  hover:text-[#28d942] hover:blur-[0.7px] transition-all transition-duration-300`}
 					onClick={() => handleDone(todo.id)}
 				>
 					<MdDone />

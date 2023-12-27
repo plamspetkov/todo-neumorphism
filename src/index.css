@@ -61,6 +61,18 @@
 	transition: 0.5s;
 }
 
+.editTodo {
+	box-shadow: inset 5px 5px 8px #2c3136, inset -5px -5px 8px #49525a;
+	background: #373d44;
+	text-shadow: 1px 1px 1.2px #2c3136, -1px -1px 1.2px #49525a;
+	color: rgb(38, 43, 47);
+}
+
+.editText {
+	text-shadow: 1px 1px 1.2px #2c3136, -1px -1px 1.2px #49525a;
+	color: rgb(38, 43, 47);
+}
+
 .todo > span {
 	color: transparent;
 	background: #343a40;

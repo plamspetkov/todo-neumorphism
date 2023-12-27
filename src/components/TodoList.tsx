@@ -1,21 +1,16 @@
 import React from 'react';
-import { Todo } from '../model';
+import { Action, Todo } from '../model';
 import SingleTodo from './SingleTodo';
 
 interface Props {
 	todos: Todo[];
-	setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
+	dispatch: React.Dispatch<Action>;
 }
-const TodoList: React.FC<Props> = ({ todos, setTodos }) => {
+const TodoList: React.FC<Props> = ({ todos, dispatch }) => {
 	return (
 		<div className="flex justify-start gap-4 w-[100%] flex-wrap">
 			{todos.map((todo) => (
-				<SingleTodo
-					key={todo.id}
-					todos={todos}
-					todo={todo}
-					setTodos={setTodos}
-				/>
+				<SingleTodo key={todo.id} dispatch={dispatch} todo={todo} />
 			))}
 		</div>
 	);

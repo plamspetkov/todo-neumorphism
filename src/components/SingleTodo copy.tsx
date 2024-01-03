@@ -1,40 +1,44 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Todo } from '../model';
+import { Action, Todo } from '../model';
 import { MdModeEdit, MdDelete, MdDone } from 'react-icons/md';
 import { Draggable } from 'react-beautiful-dnd';
-const SingleTodo: React.FC<{
-	index: number;
+type Props = {
 	todo: Todo;
-	todos: Array<Todo>;
-	setTodos: React.Dispatch<React.SetStateAction<Array<Todo>>>;
-}> = ({ index, todo, todos, setTodos }) => {
+	dispatch: React.Dispatch<Action>;
+	index: number;
+};
+const SingleTodo = ({ todo, index, dispatch }: Props) => {
 	const [edit, setEdit] = useState<boolean>(false);
 	const [editTodo, setEditTodo] = useState<string>(todo.todo);
 
-	const inputRef = useRef<HTMLInputElement>(null);
-	useEffect(() => {
-		inputRef.current?.focus();
-	}, [edit]);
-
-	const handleEdit = (e: React.FormEvent, id: number) => {
-		e.preventDefault();
-		setTodos(
-			todos.map((todo) => (todo.id === id ? { ...todo, todo: editTodo } : todo))
-		);
-		setEdit(false);
+	const handleDone = (id: number) => {
+		dispatch({
+			type: 'done',
+			payload: id,
+		});
 	};
 
 	const handleDelete = (id: number) => {
-		setTodos(todos.filter((todo) => todo.id !== id));
+		dispatch({
+			type: 'remove',
+			payload: id,
+		});
 	};
 
-	const handleDone = (id: number) => {
-		setTodos(
-			todos.map((todo) =>
-				todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
-			)
-		);
+	const handleEdit = (e: React.FormEvent, id: number) => {
+		e.preventDefault();
+		dispatch({
+			type: 'edit',
+			payload: { id, todo: editTodo },
+		});
+		setEdit(false);
 	};
+
+	const inputRef = useRef<HTMLInputElement>(null);
+
+	useEffect(() => {
+		inputRef.current?.focus();
+	}, [edit]);
 
 	return (
 		<Draggable draggableId={todo.id.toString()} index={index} key={todo.id}>

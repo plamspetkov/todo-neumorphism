@@ -57,8 +57,7 @@
 	background: #373d44;
 	text-shadow: 1px 1px 1.2px #2c3136, -1px -1px 1.2px #49525a;
 	color: rgb(38, 43, 47);
-
-	transition: 0.5s;
+	/* transition: 0.5s; */
 }
 
 .editTodo {

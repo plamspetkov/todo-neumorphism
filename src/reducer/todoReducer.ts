@@ -1,9 +1,9 @@
-import { Action, Todo } from '../model';
+// todoReducer.ts
+import { Todo, Action } from './model';
 
-export const TodoReducer = (state: Todo[], action: Action) => {
+export const todoReducer = (state: Todo[], action: Action): Todo[] => {
 	switch (action.type) {
 		case 'add':
-			console.log('state', state);
 			return [
 				...state,
 				{
@@ -24,6 +24,23 @@ export const TodoReducer = (state: Todo[], action: Action) => {
 					? { ...todo, todo: action.payload.todo }
 					: todo
 			);
+		case 'move': {
+			const { destId, taskId } = action.payload;
+			const sourceList = state.find((todo) => todo.id === taskId);
+
+			if (!sourceList) {
+				return state;
+			}
+
+			const updatedSourceList = {
+				...sourceList,
+				isDone: destId === 'TodosRemove',
+			};
+
+			return state.map((todo) =>
+				todo.id === taskId ? updatedSourceList : todo
+			);
+		}
 
 		default:
 			return state;

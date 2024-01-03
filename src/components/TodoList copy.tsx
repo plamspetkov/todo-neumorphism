@@ -1,38 +1,31 @@
 import React from 'react';
-import { Todo } from '../model';
+import { Action, Todo } from '../model';
 import SingleTodo from './SingleTodo';
 import { Droppable } from 'react-beautiful-dnd';
 
-interface props {
-	todos: Array<Todo>;
-	setTodos: React.Dispatch<React.SetStateAction<Array<Todo>>>;
-	setCompletedTodos: React.Dispatch<React.SetStateAction<Array<Todo>>>;
-	completedTodos: Array<Todo>;
+interface Props {
+	todos: Todo[];
+	dispatch: React.Dispatch<Action>;
 }
-
-const TodoList: React.FC<props> = ({
-	todos,
-	setTodos,
-	completedTodos,
-	setCompletedTodos,
-}) => {
+const TodoList: React.FC<Props> = ({ todos, dispatch }) => {
+	const activeTodos = todos.filter((todo) => !todo.isDone);
+	const completedTodos = todos.filter((todo) => todo.isDone);
 	return (
 		<div className="flex w-full mt-[10px] justify-between gap-[2rem] items-start">
-			<Droppable droppableId="TodosList">
+			<Droppable droppableId="TodosAdd">
 				{(provided) => (
 					<div
 						ref={provided.innerRef}
 						{...provided.droppableProps}
-						className="flex-1 flex flex-col justify-center items-center bg-white min-h-[100px]"
+						className="flex-1 flex flex-col justify-center items-center"
 					>
 						<span>Active Tasks</span>
-						{todos?.map((todo, index) => (
+						{activeTodos.map((todo, index) => (
 							<SingleTodo
 								index={index}
-								todos={todos}
-								todo={todo}
 								key={todo.id}
-								setTodos={setTodos}
+								dispatch={dispatch}
+								todo={todo}
 							/>
 						))}
 						{provided.placeholder}
@@ -44,16 +37,15 @@ const TodoList: React.FC<props> = ({
 					<div
 						ref={provided.innerRef}
 						{...provided.droppableProps}
-						className="flex-1 flex flex-col justify-center items-center bg-white min-h-[100px]"
+						className="flex-1 flex flex-col justify-center items-center"
 					>
 						<span>Completed Tasks</span>
-						{completedTodos?.map((todo, index) => (
+						{completedTodos.map((todo, index) => (
 							<SingleTodo
 								index={index}
-								todos={completedTodos}
-								todo={todo}
 								key={todo.id}
-								setTodos={setCompletedTodos}
+								dispatch={dispatch}
+								todo={todo}
 							/>
 						))}
 						{provided.placeholder}

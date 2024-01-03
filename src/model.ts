@@ -1,3 +1,5 @@
+export type State = Todo[];
+
 export interface Todo {
 	id: number;
 	todo: string;
@@ -11,4 +13,11 @@ export type Action =
 			type: 'done';
 			payload: number;
 	  }
-	| { type: 'edit'; payload: { id: number; todo: string } };
+	| {
+			type: 'edit';
+			payload: { id: number; todo: string };
+	  }
+	| {
+			type: 'move';
+			payload: { destId: string; taskId: number };
+	  };

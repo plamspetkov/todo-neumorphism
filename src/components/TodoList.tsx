@@ -8,6 +8,7 @@ interface props {
 	setTodos: React.Dispatch<React.SetStateAction<Array<Todo>>>;
 	setCompletedTodos: React.Dispatch<React.SetStateAction<Array<Todo>>>;
 	completedTodos: Array<Todo>;
+	handleDoneClick: (id: number) => void;
 }
 
 const TodoList: React.FC<props> = ({
@@ -15,6 +16,7 @@ const TodoList: React.FC<props> = ({
 	setTodos,
 	completedTodos,
 	setCompletedTodos,
+	handleDoneClick,
 }) => {
 	return (
 		<div className="flex w-full mt-[10px] justify-between gap-[2rem] items-start">
@@ -33,6 +35,7 @@ const TodoList: React.FC<props> = ({
 								todo={todo}
 								key={todo.id}
 								setTodos={setTodos}
+								handleDoneClick={handleDoneClick}
 							/>
 						))}
 						{provided.placeholder}
@@ -54,6 +57,7 @@ const TodoList: React.FC<props> = ({
 								todo={todo}
 								key={todo.id}
 								setTodos={setCompletedTodos}
+								handleDoneClick={handleDoneClick}
 							/>
 						))}
 						{provided.placeholder}

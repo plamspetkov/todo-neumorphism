@@ -1,7 +1,6 @@
-// todoReducer.ts
-import { Todo, Action } from './model';
+import { Action, Todo } from '../model';
 
-export const todoReducer = (state: Todo[], action: Action): Todo[] => {
+export const TodoReducer = (state: Todo[], action: Action) => {
 	switch (action.type) {
 		case 'add':
 			return [
@@ -24,22 +23,58 @@ export const todoReducer = (state: Todo[], action: Action): Todo[] => {
 					? { ...todo, todo: action.payload.todo }
 					: todo
 			);
-		case 'move': {
-			const { destId, taskId } = action.payload;
-			const sourceList = state.find((todo) => todo.id === taskId);
 
-			if (!sourceList) {
-				return state;
+		case 'move': {
+			const { destId, taskId, startIndex, endIndex } = action.payload;
+
+			if (destId === 'TodosList' || destId === 'TodosRemove') {
+				const updatedState = Array.from(state);
+				const [movedTask] = updatedState.splice(startIndex, 1);
+				updatedState.splice(endIndex, 0, movedTask);
+
+				return updatedState;
+			} else {
+				const sourceList = state.filter((todo) => todo.id === taskId)[0];
+				const updatedSourceList = {
+					...sourceList,
+					isDone: destId === 'TodosRemove',
+				};
+
+				// Update the source list
+				const updatedState = state.map((todo) =>
+					todo.id === taskId ? updatedSourceList : todo
+				);
+
+				return updatedState;
 			}
 
-			const updatedSourceList = {
-				...sourceList,
-				isDone: destId === 'TodosRemove',
-			};
+			return state;
 
-			return state.map((todo) =>
-				todo.id === taskId ? updatedSourceList : todo
-			);
+			// /////////////////////////////////////////////////////////////////////////////////////
+
+			// const sourceList = state.filter((todo) => todo.id === taskId)[0];
+			// const updatedSourceList = {
+			// 	...sourceList,
+			// 	isDone: destId === 'TodosRemove',
+			// };
+
+			// // Update the source list
+			// const updatedState = state.map((todo) =>
+			// 	todo.id === taskId ? updatedSourceList : todo
+			// );
+
+			// return updatedState;
+			///////////////////////////
+
+			// if (destId === 'TodosAdd' || destId === 'TodosRemove') {
+			// 	const updatedState = Array.from(state);
+			// 	const [movedTask] = updatedState.splice(startIndex, 1);
+			// 	updatedState.splice(endIndex, 0, movedTask);
+
+			// 	return updatedState;
+			// }
+
+			// return state;
 		}
 
 		default:

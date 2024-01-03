@@ -7,7 +7,8 @@ const SingleTodo: React.FC<{
 	todo: Todo;
 	todos: Array<Todo>;
 	setTodos: React.Dispatch<React.SetStateAction<Array<Todo>>>;
-}> = ({ index, todo, todos, setTodos }) => {
+	handleDoneClick: (id: number) => void;
+}> = ({ index, todo, todos, setTodos, handleDoneClick }) => {
 	const [edit, setEdit] = useState<boolean>(false);
 	const [editTodo, setEditTodo] = useState<string>(todo.todo);
 
@@ -28,13 +29,13 @@ const SingleTodo: React.FC<{
 		setTodos(todos.filter((todo) => todo.id !== id));
 	};
 
-	const handleDone = (id: number) => {
-		setTodos(
-			todos.map((todo) =>
-				todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
-			)
-		);
-	};
+	// const handleDone = (id: number) => {
+	// 	setTodos(
+	// 		todos.map((todo) =>
+	// 			todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
+	// 		)
+	// 	);
+	// };
 
 	return (
 		<Draggable draggableId={todo.id.toString()} index={index} key={todo.id}>
@@ -103,7 +104,7 @@ const SingleTodo: React.FC<{
 							}  hover:text-[#28d942] hover:blur-[0] transition-all transition-duration-300`}
 							onClick={() => {
 								if (!edit) {
-									handleDone(todo.id);
+									handleDoneClick(todo.id);
 								}
 							}}
 						>

@@ -19,5 +19,10 @@ export type Action =
 	  }
 	| {
 			type: 'move';
-			payload: { destId: string; taskId: number };
+			payload: {
+				destId: string;
+				taskId: number;
+				startIndex: number;
+				endIndex: number;
+			};
 	  };

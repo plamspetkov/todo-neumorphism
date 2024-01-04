@@ -31,6 +31,7 @@ const SingleTodo: React.FC<{
 		const deleteTodo = todos.filter((todo) => todo.id !== id);
 		setTodos(deleteTodo);
 		localStorage.setItem('todos', JSON.stringify(deleteTodo));
+		localStorage.setItem('completedTodos', JSON.stringify(deleteTodo));
 	};
 
 	// const handleDone = (id: number) => {

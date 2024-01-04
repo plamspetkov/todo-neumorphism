@@ -22,6 +22,14 @@
 	align-items: center;
 }
 
+.title {
+	@apply uppercase font-display font-[500] text-[40px] blur-[0.7px];
+}
+
+.dragover .title {
+	@apply blur-[0];
+}
+
 .input,
 .input::placeholder,
 .span {
@@ -37,7 +45,8 @@
 	box-shadow: inset 5px 5px 8px #2c3136, inset -5px -5px 8px #49525a;
 	background: #373d44;
 	text-shadow: 1px 1px 1.2px #2c3136, -1px -1px 1.2px #49525a;
-	color: rgb(38, 43, 47);
+	/* color: rgb(38, 43, 47); */
+	color: #ff5900;
 }
 
 .input:focus + .btn {
@@ -47,10 +56,10 @@
 .input:focus + .btn > .span {
 	text-shadow: 1px 1px 1.2px #2c3136, -1px -1px 1.2px #49525a;
 }
-.input:focus + .btn > .span:hover {
+/* .input:focus + .btn > .span:hover {
 	color: #ff5900;
 	filter: blur(0.7px);
-}
+} */
 
 .todo {
 	box-shadow: 4px 4px 10px #2c3136, -4px -4px 10px #49525a;
@@ -69,7 +78,9 @@
 
 .editText {
 	text-shadow: 1px 1px 1.2px #2c3136, -1px -1px 1.2px #49525a;
-	color: rgb(38, 43, 47);
+	/* color: rgb(38, 43, 47); */
+
+	color: #ff5900;
 }
 
 .todo > span {
@@ -79,6 +90,18 @@
 	text-shadow: -1px -1px 1.2px #2c3136, 1px 1px 1.2px #49525a;
 	color: #262b2f;
 	transition: 0.5s;
+}
+
+.drag {
+	z-index: 5;
+	box-shadow: 0px 0px 15px #2c3136;
+	background: #373d44;
+	text-shadow: 1px 1px 1.2px #2c3136, -1px -1px 1.2px #49525a;
+	color: rgb(38, 43, 47);
+}
+
+.drag > span {
+	filter: blur(0px);
 }
 
 .morph {

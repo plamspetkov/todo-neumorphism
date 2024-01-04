@@ -19,15 +19,17 @@ const TodoList: React.FC<props> = ({
 	handleDoneClick,
 }) => {
 	return (
-		<div className="flex w-full mt-[10px] justify-between gap-[2rem] items-start">
+		<div className="flex flex-col gap-[3rem] w-full mt-[10px] justify-between items-start lg:flex-row  ">
 			<Droppable droppableId="TodosList">
-				{(provided) => (
+				{(provided, snapshot) => (
 					<div
 						ref={provided.innerRef}
 						{...provided.droppableProps}
-						className="flex-1 flex flex-col justify-center items-center bg-white min-h-[100px]"
+						className={`${
+							snapshot.isDraggingOver ? 'dragover' : ''
+						} w-full flex flex-col justify-start items-center min-h-[100px] lg:flex-1`}
 					>
-						<span>Active Tasks</span>
+						<span className="title text-[#28d942]">Active Tasks</span>
 						{todos?.map((todo, index) => (
 							<SingleTodo
 								index={index}
@@ -43,13 +45,15 @@ const TodoList: React.FC<props> = ({
 				)}
 			</Droppable>
 			<Droppable droppableId="TodosRemove">
-				{(provided) => (
+				{(provided, snapshot) => (
 					<div
 						ref={provided.innerRef}
 						{...provided.droppableProps}
-						className="flex-1 flex flex-col justify-center items-center bg-white min-h-[100px]"
+						className={`${
+							snapshot.isDraggingOver ? 'dragover' : ''
+						} w-full flex flex-col justify-start items-center min-h-[100px] lg:flex-1`}
 					>
-						<span>Completed Tasks</span>
+						<span className="title text-[#fe3939] ">Completed Tasks</span>
 						{completedTodos?.map((todo, index) => (
 							<SingleTodo
 								index={index}

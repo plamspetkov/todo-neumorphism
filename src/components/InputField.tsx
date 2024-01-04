@@ -27,9 +27,14 @@ const InputField: React.FC<Props> = ({ todo, setTodo, handleAdd }) => {
 			<button
 				type="submit"
 				disabled={todo.length === 0 || todo === null}
-				className="btn flex justify-center items-center text-4xl  uppercase absolute w-[50px] h-[50px] m-[12px] right-0 border-none rounded transition-all transition-duration-300"
+				className={`btn flex justify-center items-center   uppercase absolute w-[50px] h-[50px] m-[12px] right-0 border-none rounded transition-all transition-duration-300`}
 			>
-				<span className="span font-black" title="Go">
+				<span
+					className={`span text-4xl font-black ${
+						todo.length > 0 ? '!text-[#ff5900] blur-[0.7px] hover:blur-0' : ''
+					}  `}
+					title="Go"
+				>
 					Go
 				</span>
 			</button>

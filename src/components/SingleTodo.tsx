@@ -39,13 +39,17 @@ const SingleTodo: React.FC<{
 
 	return (
 		<Draggable draggableId={todo.id.toString()} index={index} key={todo.id}>
-			{(provided) => (
+			{(provided, snapshot) => (
 				<form
 					ref={provided.innerRef}
 					{...provided.draggableProps}
 					{...provided.dragHandleProps}
 					className={`${
-						edit ? 'editTodo' : 'todo'
+						edit || (todo.isDone && !snapshot.isDragging)
+							? 'editTodo'
+							: snapshot.isDragging
+							? 'drag'
+							: 'todo'
 					} flex w-[100%]  justify-between items-center gap-4 rounded p-[20px] mt-[15px]`}
 					onSubmit={(e) => handleEdit(e, todo.id)}
 				>
@@ -61,8 +65,8 @@ const SingleTodo: React.FC<{
 						<span
 							className={`${
 								todo.isDone
-									? '!text-[#fe3939] line-through decoration-[#fe3939] blur-[0.7px] '
-									: '!text-[#28d942] blur-[0.7px]'
+									? ' !text-[#fe3939] line-through decoration-[#fe3939] blur-[0.7px] hover:blur-0'
+									: '!text-[#28d942] blur-[0.7px] hover:blur-0'
 							} text-[20px] flex-1 p-[5px]`}
 						>
 							{todo.todo}
@@ -97,9 +101,9 @@ const SingleTodo: React.FC<{
 						<span
 							className={`${
 								todo.isDone
-									? 'text-[#28d942] blur-[0.7px]'
+									? 'text-[#28d942] blur-[0.7px] '
 									: edit
-									? 'text-[#262b2f] hover:text-[#262b2f] cursor-default'
+									? '!text-[#262b2f] !hover:text-[#262b2f] cursor-default'
 									: 'text-[#262b2f] blur-[0.7px]'
 							}  hover:text-[#28d942] hover:blur-[0] transition-all transition-duration-300`}
 							onClick={() => {

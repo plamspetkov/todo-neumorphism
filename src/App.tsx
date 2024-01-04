@@ -11,15 +11,16 @@ const App: React.FC = () => {
 	const [completedTodos, setCompletedTodos] = useState<Array<Todo>>([]);
 
 	useEffect(() => {
-		const storedTodos = JSON.parse(localStorage.getItem('todos') || '[]');
-		const storedCompletedTodos = JSON.parse(
-			localStorage.getItem('completedTodos') || '[]'
-		);
-		if (storedTodos.lenght || storedCompletedTodos.lenght) {
-			setTodos(storedTodos);
-			setCompletedTodos(storedCompletedTodos);
+		const storedTodos = localStorage.getItem('todos') || '[]';
+		const storedCompletedTodos = localStorage.getItem('completedTodos') || '[]';
+		if (storedTodos.length > 0 || storedCompletedTodos.length > 0) {
+			setTodos(JSON.parse(storedTodos));
+			setCompletedTodos(JSON.parse(storedCompletedTodos));
 		}
 	}, []);
+
+	console.log('active', todos);
+	console.log('done', completedTodos);
 
 	const handleAdd = (e: React.FormEvent) => {
 		e.preventDefault();

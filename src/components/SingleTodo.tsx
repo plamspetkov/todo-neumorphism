@@ -8,7 +8,8 @@ const SingleTodo: React.FC<{
 	todos: Array<Todo>;
 	setTodos: React.Dispatch<React.SetStateAction<Array<Todo>>>;
 	handleDoneClick: (id: number) => void;
-}> = ({ index, todo, todos, setTodos, handleDoneClick }) => {
+	completedTodos: Array<Todo>;
+}> = ({ index, todo, todos, setTodos, handleDoneClick, completedTodos }) => {
 	const [edit, setEdit] = useState<boolean>(false);
 	const [editTodo, setEditTodo] = useState<string>(todo.todo);
 
@@ -27,11 +28,22 @@ const SingleTodo: React.FC<{
 		setEdit(false);
 	};
 
-	const handleDelete = (id: number) => {
-		const deleteTodo = todos.filter((todo) => todo.id !== id);
-		setTodos(deleteTodo);
-		localStorage.setItem('todos', JSON.stringify(deleteTodo));
-		localStorage.setItem('completedTodos', JSON.stringify(deleteTodo));
+	const handleDelete = (id: number, isCompleted: boolean) => {
+		let updatedTodos;
+
+		if (isCompleted) {
+			updatedTodos = completedTodos.filter((todo) => todo.id !== id);
+			localStorage.setItem('completedTodos', JSON.stringify(updatedTodos));
+		} else {
+			updatedTodos = todos.filter((todo) => todo.id !== id);
+			localStorage.setItem('todos', JSON.stringify(updatedTodos));
+		}
+
+		setTodos(updatedTodos);
+		// const deleteTodo = todos.filter((todo) => todo.id !== id);
+		// setTodos(deleteTodo);
+		// localStorage.setItem('todos', JSON.stringify(deleteTodo));
+		// localStorage.setItem('completedTodos', JSON.stringify(deleteTodo));
 	};
 
 	// const handleDone = (id: number) => {
@@ -99,7 +111,7 @@ const SingleTodo: React.FC<{
 							className={`${
 								todo.isDone ? 'text-[#fe3939] blur-[0.7px]' : 'text-[#262b2f]'
 							}  hover:text-[#fe3939] hover:blur-[0.7px] transition-all transition-duration-300`}
-							onClick={() => handleDelete(todo.id)}
+							onClick={() => handleDelete(todo.id, todo.isDone)}
 						>
 							<MdDelete />
 						</span>

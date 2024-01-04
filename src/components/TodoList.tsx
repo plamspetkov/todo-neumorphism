@@ -27,9 +27,11 @@ const TodoList: React.FC<props> = ({
 						{...provided.droppableProps}
 						className={`${
 							snapshot.isDraggingOver ? 'dragover' : ''
-						} w-full flex flex-col justify-start items-center min-h-[100px] lg:flex-1`}
+						} w-full flex flex-col justify-start items-start min-h-[100px] lg:flex-1 lg:items-center`}
 					>
-						<span className="title text-[#28d942]">Active Tasks</span>
+						<span className="title text-[#28d942] !text-[24px] lg:!text-[30px] ">
+							Active Tasks
+						</span>
 						{todos?.map((todo, index) => (
 							<SingleTodo
 								index={index}
@@ -51,9 +53,11 @@ const TodoList: React.FC<props> = ({
 						{...provided.droppableProps}
 						className={`${
 							snapshot.isDraggingOver ? 'dragover' : ''
-						} w-full flex flex-col justify-start items-center min-h-[100px] lg:flex-1`}
+						} w-full flex flex-col justify-start items-start min-h-[100px] lg:flex-1 lg:items-center`}
 					>
-						<span className="title text-[#fe3939] ">Completed Tasks</span>
+						<span className="title text-[#fe3939] !text-[24px] lg:!text-[30px] ">
+							Completed Tasks
+						</span>
 						{completedTodos?.map((todo, index) => (
 							<SingleTodo
 								index={index}

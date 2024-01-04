@@ -19,14 +19,18 @@ const SingleTodo: React.FC<{
 
 	const handleEdit = (e: React.FormEvent, id: number) => {
 		e.preventDefault();
-		setTodos(
-			todos.map((todo) => (todo.id === id ? { ...todo, todo: editTodo } : todo))
+		const updateTodo = todos.map((todo) =>
+			todo.id === id ? { ...todo, todo: editTodo } : todo
 		);
+		setTodos(updateTodo);
+		localStorage.setItem('todos', JSON.stringify(updateTodo));
 		setEdit(false);
 	};
 
 	const handleDelete = (id: number) => {
-		setTodos(todos.filter((todo) => todo.id !== id));
+		const deleteTodo = todos.filter((todo) => todo.id !== id);
+		setTodos(deleteTodo);
+		localStorage.removeItem('todos', JSON.stringify(deleteTodo));
 	};
 
 	// const handleDone = (id: number) => {

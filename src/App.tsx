@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from './components/Header';
 import InputField from './components/InputField';
 import TodoList from './components/TodoList';
@@ -10,11 +10,24 @@ const App: React.FC = () => {
 	const [todos, setTodos] = useState<Array<Todo>>([]);
 	const [completedTodos, setCompletedTodos] = useState<Array<Todo>>([]);
 
+	useEffect(() => {
+		const storedTodos = JSON.parse(localStorage.getItem('todos') || '[]');
+		const storedCompletedTodos = JSON.parse(
+			localStorage.getItem('completedTodos') || '[]'
+		);
+		if (storedTodos.lenght || storedCompletedTodos.lenght) {
+			setTodos(storedTodos);
+			setCompletedTodos(storedCompletedTodos);
+		}
+	}, []);
+
 	const handleAdd = (e: React.FormEvent) => {
 		e.preventDefault();
 
 		if (todo) {
-			setTodos([...todos, { id: Date.now(), todo, isDone: false }]);
+			const newTodos = [...todos, { id: Date.now(), todo, isDone: false }];
+			setTodos(newTodos);
+			localStorage.setItem('todos', JSON.stringify(newTodos));
 			setTodo('');
 		}
 	};
@@ -56,6 +69,9 @@ const App: React.FC = () => {
 
 		setCompletedTodos(complete);
 		setTodos(active);
+
+		localStorage.setItem('todos', JSON.stringify(active));
+		localStorage.setItem('completedTodos', JSON.stringify(complete));
 	};
 
 	const handleDoneClick = (id: number) => {
@@ -77,6 +93,10 @@ const App: React.FC = () => {
 			// Update the state
 			setTodos(newTodos);
 			setCompletedTodos(newCompletedTodos);
+
+			// Update the local storage
+			localStorage.setItem('todos', JSON.stringify(newTodos));
+			localStorage.setItem('completedTodos', JSON.stringify(newCompletedTodos));
 		} else {
 			// If the task is not found in the todos array, find it in the completedTodos array
 			const completedTaskIndex = completedTodos.findIndex(
@@ -98,6 +118,10 @@ const App: React.FC = () => {
 			// Update the state
 			setTodos(newTodos);
 			setCompletedTodos(newCompletedTodos);
+
+			// Update the local storage
+			localStorage.setItem('todos', JSON.stringify(newTodos));
+			localStorage.setItem('completedTodos', JSON.stringify(newCompletedTodos));
 		}
 	};
 
